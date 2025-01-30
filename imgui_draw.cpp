@@ -2693,7 +2693,7 @@ void ImFontAtlasUpdateNewFrame(ImFontAtlas* atlas)
 
         if (tex->Status == ImTextureStatus_Destroyed)
         {
-            IM_ASSERT(tex->TexUserID == 0 && tex->BackendUserData == NULL);
+            IM_ASSERT(tex->TexUserID == ImTextureUserID_Invalid && tex->BackendUserData == NULL);
             if (tex->WantDestroyNextFrame)
                 remove_from_list = true; // Destroy was scheduled by us
             else
@@ -2714,7 +2714,7 @@ void ImFontAtlasUpdateNewFrame(ImFontAtlas* atlas)
         }
 
         // If a texture has never reached the backend, they don't need to know about it.
-        if (tex->Status == ImTextureStatus_WantDestroy && tex->TexUserID == 0 && tex->BackendUserData == NULL)
+        if (tex->Status == ImTextureStatus_WantDestroy && tex->TexUserID == ImTextureUserID_Invalid && tex->BackendUserData == NULL)
             remove_from_list = true;
 
         // Remove
@@ -3517,7 +3517,7 @@ ImTextureData* ImFontAtlasBuildAddTexture(ImFontAtlas* atlas, int w, int h)
     /*if (old_tex != NULL && old_tex->Status == ImTextureStatus_WantCreate)
     {
         // Reuse texture not yet used by backend.
-        IM_ASSERT(old_tex->TexUserID == 0 && old_tex->BackendUserData == NULL);
+        IM_ASSERT(old_tex->TexUserID == ImTextureUserID_Invalid && old_tex->BackendUserData == NULL);
         old_tex->DestroyPixels();
         old_tex->Updates.clear();
         new_tex = old_tex;
